@@ -20,7 +20,9 @@ export const Store = {
     return data.session;
   },
   async signIn(email, password) { return sb.auth.signInWithPassword({ email, password }); },
-  async signUp(email, password) { return sb.auth.signUp({ email, password }); },
+  // confirmation mail returns to this page (must also be listed in Supabase → Auth → URL Configuration → Redirect URLs)
+  async signUp(email, password) { return sb.auth.signUp({ email, password, options: { emailRedirectTo: location.origin + location.pathname } }); },
+  async resend(email) { return sb.auth.resend({ type: 'signup', email, options: { emailRedirectTo: location.origin + location.pathname } }); },
   async signOut() { if (cloud) await sb.auth.signOut(); },
 
   async loadAll() {

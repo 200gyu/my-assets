@@ -1,6 +1,6 @@
-import { Store } from './store.js?v=3';
-import { demoData, demoSnapshots } from './seed.js?v=3';
-import { totals, cardSummary, forecast, alerts, monthStats, lastMonths, won, short, todayStr, toStr, parse, daysBetween, nextOnDay } from './calc.js?v=3';
+import { Store } from './store.js?v=4';
+import { demoData, demoSnapshots } from './seed.js?v=4';
+import { totals, cardSummary, forecast, alerts, monthStats, lastMonths, won, short, todayStr, toStr, parse, daysBetween, nextOnDay } from './calc.js?v=4';
 
 // ---------- constants ----------
 const EXP_CATS = ['식비', '카페·간식', '교통', '쇼핑', '주거·관리비', '통신', '의료', '교육', '경조사', '보험', '금융비용', '세금', '투자', '사업자금', '기타'];
@@ -549,7 +549,14 @@ async function boot() {
   $('#auth-form').onsubmit = async (e) => {
     e.preventDefault(); const f = e.target; $('#auth-msg').textContent = '확인 중…';
     const { error, data } = signup ? await Store.signUp(f.email.value, f.password.value) : await Store.signIn(f.email.value, f.password.value);
-    if (error) { $('#auth-msg').textContent = error.message; return; }
+    if (error) {
+      const m = /not confirmed/i.test(error.message) ? '메일 인증이 아직 안 됐습니다. 인증 메일을 다시 보냈으니 링크를 눌러 주세요.'
+        : /invalid login/i.test(error.message) ? '이메일 또는 비밀번호가 맞지 않습니다.'
+        : /already registered/i.test(error.message) ? '이미 가입된 이메일입니다. 로그인해 주세요.' : error.message;
+      $('#auth-msg').textContent = m;
+      if (/not confirmed/i.test(error.message)) Store.resend(f.email.value);
+      return;
+    }
     if (signup && !data.session) { $('#auth-msg').textContent = '확인 메일을 보냈습니다. 메일의 링크를 누른 뒤 로그인하세요.'; return; }
     try { await start(); } catch (err) { $('#auth-msg').textContent = '데이터를 불러오지 못했습니다: ' + err.message; }
   };

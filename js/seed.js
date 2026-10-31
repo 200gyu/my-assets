@@ -1,5 +1,5 @@
 // Demo data (sample only — replaced by your own data once you start entering it)
-import { toStr } from './calc.js?v=3';
+import { toStr } from './calc.js?v=4';
 
 export function demoData() {
   let s = 7; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
