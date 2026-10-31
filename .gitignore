@@ -1,0 +1,8 @@
+node_modules/
+.DS_Store
+*.local.*
+# never commit real bank files or backups
+*.xls
+*.xlsx
+*.csv
+my-assets-backup-*.json
