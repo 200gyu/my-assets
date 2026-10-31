@@ -1,6 +1,6 @@
-import { Store } from './store.js';
-import { demoData, demoSnapshots } from './seed.js';
-import { totals, cardSummary, forecast, alerts, monthStats, lastMonths, won, short, todayStr, toStr, parse, daysBetween, nextOnDay } from './calc.js';
+import { Store } from './store.js?v=3';
+import { demoData, demoSnapshots } from './seed.js?v=3';
+import { totals, cardSummary, forecast, alerts, monthStats, lastMonths, won, short, todayStr, toStr, parse, daysBetween, nextOnDay } from './calc.js?v=3';
 
 // ---------- constants ----------
 const EXP_CATS = ['식비', '카페·간식', '교통', '쇼핑', '주거·관리비', '통신', '의료', '교육', '경조사', '보험', '금융비용', '세금', '투자', '사업자금', '기타'];
